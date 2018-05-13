@@ -1,0 +1,182 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>Title</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no, maximum-scale=1.0">
+	<link rel="stylesheet" href="/css/main.css">
+</head>
+<body class="__wrapper">
+
+
+<div id="start-screen" class="std-app-screen" v-show="global.startScreen">
+	<div class="app-header">
+		<div class="app-header__icon"></div>
+		<div class="app-header__text">
+			<div class="main-line">Travel information on public transport</div>
+			<div class="sub-line">9292.nl</div>
+		</div>
+	</div>
+	<div class="plan-trip">
+		<div class="form-row">
+			<div class="plan-trip__extras" @click="showStep(0,true)">
+				<span class="extras-label std-app-field__label">options</span>
+				<div class="extras-icon"></div>
+			</div>
+			<std-app-field
+				class="plan-trip__time"
+				value=""
+				placeholder="11"
+				label="leave at"
+				:append="getTimeStr"
+				:editable="false"
+				@click="showStep(0)"
+				:focusto="getGlobalHelper('timeLabel')"
+			></std-app-field>
+			
+		</div>
+		<div class="form-row">
+			<std-app-field
+				class="plan-trip__from"
+				:value="activeFromValue"
+				label="from"
+				:editable="false"
+				@click="showStep(1)"
+				:focusto="getGlobalHelper('fromLabel')"
+			></std-app-field>
+		</div>
+		<div class="form-row">
+			<std-app-field
+				class="plan-trip__to"
+				:value="activeToValue"
+				label="to"
+				:editable="false"
+				@click="showStep(2)"
+				:focusto="getGlobalHelper('toLabel')"
+			></std-app-field>
+		</div>
+		
+		<div class="form-row form-row--bottom-nav">
+			<div class="plan-trip__menu">
+				<div class="plan-trip__menu-icon"></div>
+			</div>
+			<div class="plan-trip__start">plan a trip →</div>
+		</div>
+	</div>
+	
+	
+</div>
+
+<div id="travel-input" class="std-app-screen" v-show="loadAndShow">
+	<div class="progress-bar"></div>
+	<div class="input-suggestions-wrapper">
+		<!-- TIME AND EXTRAS -->
+		<div class="input-suggestions-wrapper-time" v-show="global.travelInput.step == 0">
+			<std-toggle
+				class="input-suggestions__time-type"
+				:items="[{label:'leave at', value:0},{label:'arrive at', value:1}]"
+				:active="0"
+			></std-toggle>
+		</div>
+		<!-- FROM INPUT -->
+		<div class="input-suggestions-wrapper-from" v-show="global.travelInput.step == 1">
+			<label :for="getGlobalHelper('toLabel')" class="stop-object stop-object-suggestion"
+				 :class="[(item.selected) ? 'selected' : '']"
+				 v-for="(item,key) in from.suggestionsList"
+				 :data-id="item.id" :data-key="key"
+				 @click="selectItem($event.currentTarget)"
+			>
+				<div class="stop-object__icon"></div>
+				<div class="stop-object__place-id">
+					<div class="name">
+						{{item.name}}
+					</div>
+					<div class="substr">
+						{{item.type_display}} <span v-if="item.place_display">• {{item.place_display}}</span>
+					</div>
+				</div>
+				<div class="stop-object__next-arrow"></div>
+			</label>
+		</div>
+		<!-- TO INPUT -->
+		<div class="input-suggestions-wrapper-to" v-show="global.travelInput.step == 2">
+			<div class="stop-object stop-object-suggestion"
+				 :class="[(item.selected) ? 'selected' : '']"
+				 v-for="(item, key) in to.suggestionsList" :data-key="key"
+				 @click="selectItem($event.currentTarget)"
+			>
+				<div class="stop-object__icon"></div>
+				<div class="stop-object__place-id">
+					<div class="name">
+						{{item.name}}
+					</div>
+					<div class="substr">
+						{{item.type_display}} • {{item.place_display}}
+					</div>
+				</div>
+				<div class="stop-object__next-arrow"></div>
+			</div>
+		</div>
+	</div>
+	<div class="field-and-nav-wrapper">
+		<!-- TIME AND EXTRAS -->
+		<div id="field-and-nav-time" class="field-and-nav-container" v-show="global.travelInput.step == 0">
+			<div class="prev-step step-button" @click="prevStep"></div>
+			<std-app-field
+				class="field-and-nav__input from-input"
+				:value="timeValue"
+				:editable="true"
+				type="datetime"
+				@input="updateTime"
+				:focusid="getGlobalHelper('timeLabel')"
+			></std-app-field>
+			<label :for="getGlobalHelper('fromLabel')" class="next-step step-button" :class="[global.time ? 'active' : '']" @click="nextStep($event)"></label>
+		</div>
+		<!-- FROM INPUT -->
+		<div id="field-and-nav-from" class="field-and-nav-container" v-show="global.travelInput.step == 1">
+			<label :for="getGlobalHelper('timeLabel')" class="prev-step step-button" @click="prevStep"></label>
+			<std-app-field
+				class="field-and-nav__input from-input"
+				value=""
+				placeholder=""
+				label="from"
+				:editable="true"
+				@input="updateSuggestions($event, 'from')"
+				:focusid="getGlobalHelper('fromLabel')"
+			></std-app-field>
+			<label :for="getGlobalHelper('toLabel')" class="next-step step-button" :class="[from.selectedItem ? 'active' : '']" @click="nextStep($event)"></label>
+		</div>
+		<!-- TO INPUT -->
+		<div id="field-and-nav-to" class="field-and-nav-container" v-show="global.travelInput.step == 2">
+			<label :for="getGlobalHelper('fromLabel')" class="prev-step step-button" @click="prevStep"></label>
+			<std-app-field
+				class="field-and-nav__input to-input"
+				value=""
+				placeholder=""
+				label="to"
+				@input="updateSuggestions($event, 'to')"
+				:editable="true"
+				:focusid="getGlobalHelper('toLabel')"
+			></std-app-field>
+			<div class="next-step step-button" :class="[to.selectedItem ? 'active' : '']" @click="nextStep($event)"></div>
+		</div>
+	</div>
+</div>
+
+<div id="advice-screen" class="std-app-screen" v-show="loadAndShow">
+	<advice-scheme v-if="currentJourney" :journey="currentJourney"></advice-scheme>
+	<advice-menu v-if="journeyList" :journey-list="journeyList" :selected-index="currentJourneyIndex"
+				 @change="changeJourney"
+	></advice-menu>
+</div>
+
+<script src="js/libs.js"></script>
+<script src="js/app.js"></script>
+
+<script>
+	document.write('<script src="http://' + (location.host || 'localhost').split(':')[0] +
+		':35729/livereload.js?snipver=1"></' + 'script>')
+</script>
+
+</body>
+</html>
