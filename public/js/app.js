@@ -1,6 +1,6 @@
 (function(w){
 "use strict";
-// File /Users/john/SyncDocs/reps/9292-redesign/src/js/preamble.js
+// File /Users/jpetrov/Work/9292-redesign/src/js/preamble.js
 
 w.Components = {}
 window.Vue && window.VueTouch && window.Vue.use(window.VueTouch);
@@ -186,11 +186,11 @@ Array.prototype.move = function(from,to){
 	this.splice(to,0,this.splice(from,1)[0]);
 	return this;
 };
-// End of /Users/john/SyncDocs/reps/9292-redesign/src/js/preamble.js
+// End of /Users/jpetrov/Work/9292-redesign/src/js/preamble.js
 })(window);
 (function(w){
 "use strict";
-// File /Users/john/SyncDocs/reps/9292-redesign/src/components/advice-menu.js
+// File /Users/jpetrov/Work/9292-redesign/src/components/advice-menu.js
 
 w.Components['advice-menu'] = {
 	template: '--&gt;<transition><v-touch class=advice-menu @panstart=panstart @panmove=panmove @panend=panend :pan-options=\"{ direction: \'vertical\', threshold: 10 }\" :class=[interactiveState] :style=\"{height: height ? height+\'px\': \'auto\' }\" ref=drawer><div class=left-decor :class=\"[collapsed?\'moving-up\':\'moving-down\']\"></div><div class=right-decor :class=\"[collapsed?\'moving-up\':\'moving-down\']\"></div><div class=advice-menu__route>{{journeyList[selectedIndex].from.name}} → {{journeyList[selectedIndex].to.name}}</div><ul class=advice-menu__available-journeys><li class=journey-time v-for=\"(item,index) in journeyList\" v-if=\"(collapsed == false) || (collapsed == true &amp;&amp; showRange.indexOf(index) != -1)\" :class=\"[index == selectedIndex?\'selected\':\'\']\" :data-index=index @click=changeJourney($event.currentTarget.dataset.index)><div class=date>{{item.departure_display_day}}</div><div class=\"time reg-text\">{{item.departure_display_time}}<span class=arrow>→</span>{{item.arrival_display_time}}</div><div class=\"changes reg-text\">{{item.changes}}</div><div class=\"travel-time reg-text\">{{item.travelTime[0]}}:{{window.utils.leftpad(\'0\',2,item.travelTime[1])}}</div></ul><div class=\"form-row form-row--bottom-nav\" v-show=!collapsed><div class=advice-menu__menu><div class=advice-menu__menu-icon></div></div><div class=advice-menu__change @click=returnToStart>← change trip</div></div></v-touch></transition>',
@@ -300,33 +300,33 @@ w.Components['advice-menu'] = {
 	}
 }
 
-// End of /Users/john/SyncDocs/reps/9292-redesign/src/components/advice-menu.js
+// End of /Users/jpetrov/Work/9292-redesign/src/components/advice-menu.js
 })(window);
 (function(w){
 "use strict";
-// File /Users/john/SyncDocs/reps/9292-redesign/src/components/advice-scheme.js
+// File /Users/jpetrov/Work/9292-redesign/src/components/advice-scheme.js
 
 w.Components['advice-scheme'] = {
 	template: '<div class=advice-scheme><div class=\"stop-object stop-object-journey\"><div class=stop-object__icon></div><div class=stop-object__place-id><div class=name>{{journey.legs[0].start.name}}</div><div class=substr>{{journey.legs[0].start.type_display}} • {{journey.legs[0].start.place_display}}</div></div></div><div class=leg-append-wrapper v-for=\"leg in journey.legs\"><div class=transport-details-v1 :class=\"leg.transport.mode.type==\'walk\'?\'transport-details-v1__walk\':\'\'\"><div class=transport-details-v1__departure v-if=\"leg.transport.mode.type != \'walk\'\"><div class=time>{{leg.start.departure_display_time}}</div><div class=platform v-if=leg.start.platform>platform&nbsp;{{leg.start.platform}}</div><div class=caption>departure</div></div><div class=transport-details-v1__transport v-if=\"leg.transport.mode.type != \'walk\'\"><div class=icon></div><div class=operator><div class=mode-icon></div><span class=caption>{{leg.transport.operator.name}} {{leg.transport.mode.name}}&nbsp;{{leg.transport.service}}</span></div><div class=direction>direction → {{leg.transport.direction}}</div><div class=stops>4 stops</div></div><div class=transport-details-v1__transport v-if=\"leg.transport.mode.type == \'walk\'\"><div class=icon></div><div class=operator><div class=mode-icon></div><span class=caption>Walk&nbsp;{{leg.duration_display}}</span></div><div class=stops>Show route</div></div><div class=transport-details-v1__arrival v-if=\"leg.transport.mode.type != \'walk\'\"><div class=time>{{leg.end.arrival_display_time}}</div><div class=platform v-if=leg.end.platform>platform&nbsp;{{leg.end.platform}}</div><div class=caption>arrival</div></div></div><div class=\"stop-object stop-object-journey\"><div class=stop-object__icon></div><div class=stop-object__place-id><div class=name>{{leg.end.name}}</div><div class=substr>{{leg.end.type_display}} • {{leg.end.place_display}}</div></div></div></div></div>',
 	props: ['journey']
 }
 
-// End of /Users/john/SyncDocs/reps/9292-redesign/src/components/advice-scheme.js
+// End of /Users/jpetrov/Work/9292-redesign/src/components/advice-scheme.js
 })(window);
 (function(w){
 "use strict";
-// File /Users/john/SyncDocs/reps/9292-redesign/src/components/input-selector.js
+// File /Users/jpetrov/Work/9292-redesign/src/components/input-selector.js
 
 w.Components['input-selector'] = {
 	template: '',
 	props: ['travelData']
 }
 
-// End of /Users/john/SyncDocs/reps/9292-redesign/src/components/input-selector.js
+// End of /Users/jpetrov/Work/9292-redesign/src/components/input-selector.js
 })(window);
 (function(w){
 "use strict";
-// File /Users/john/SyncDocs/reps/9292-redesign/src/components/popup-input.js
+// File /Users/jpetrov/Work/9292-redesign/src/components/popup-input.js
 
 w.Components['popup-input'] = {
 	template: "<div class=popup-input__wrapper><div class=popup-input__field>{{label}}</div><div class=popup-modal__wrapper><div class=popup-modal__header><div class=popup-modal__close-button></div><div class=popup-modal__field><span class=popup-modal__label>{{label}}</span> <input type=text class=popup-modal__input></div><div class=popup-modal__close-button></div></div><div class=popup-modal__list><div class=popup_modal__list-helper>{{listHelper}}</div><div v-for=\"item in suggests\"><slot name=item :item=item></slot></div></div><slot name=progress-steps></slot></div></div>",
@@ -338,24 +338,24 @@ w.Components['popup-input'] = {
 	]
 }
 
-// End of /Users/john/SyncDocs/reps/9292-redesign/src/components/popup-input.js
+// End of /Users/jpetrov/Work/9292-redesign/src/components/popup-input.js
 })(window);
 (function(w){
 "use strict";
-// File /Users/john/SyncDocs/reps/9292-redesign/src/components/popup.js
+// File /Users/jpetrov/Work/9292-redesign/src/components/popup.js
 
 w.Components['popup-modal'] = {
 	template: "<transition name=modal><div class=popup-modal><div class=popup-modal__wrapper @click.stop.self=\"$emit(\'close\')\"><div class=popup-modal__container><div class=popup-modal__header><slot name=header>default header</slot></div><div class=popup-modal__body><slot name=body>default body</slot></div><div class=popup-modal__footer><slot name=footer>default footer <button class=popup-modal__default-button @click=\"$emit(\'close\')\">OK</button></slot></div></div></div></div></transition>"
 }
 
-// End of /Users/john/SyncDocs/reps/9292-redesign/src/components/popup.js
+// End of /Users/jpetrov/Work/9292-redesign/src/components/popup.js
 })(window);
 (function(w){
 "use strict";
-// File /Users/john/SyncDocs/reps/9292-redesign/src/components/std-app-field.js
+// File /Users/jpetrov/Work/9292-redesign/src/components/std-app-field.js
 
 w.Components['std-app-field'] = {
-	template: '<div class=std-app-field><label v-if=\"(type != \'datetime\')\" class=std-app-field__label><span class=active-label>{{label}}</span></label><div v-if=\"editable &amp;&amp; (type != \'datetime\')\" type=text class=\"std-app-field__input editable\"><input type=text class=internal-input :placeholder=placeholder :value=value @input=updateValue($event.target.value) :id=focusid></div><label v-if=\"!editable &amp;&amp; (type != \'datetime\')\" :for=focusto @click=emitClick class=std-app-field__input>{{value}} <span class=input-append v-if=append>{{append}}</span></label><label :for=focusid v-if=\"(type == \'datetime\')\" class=\"std-app-field__input editable\">{{window.utils.printDateTime(value)}} <input type=datetime-local class=std-app-field__datetime-hidden :id=focusid @input=updateValue($event.target.value)></label></div>',
+	template: '<div class=std-app-field><label v-if=\"(type != \'datetime\')\" class=std-app-field__label><span class=active-label>{{label}}</span></label><div v-if=\"editable &amp;&amp; (type != \'datetime\')\" type=text class=\"std-app-field__input editable\"><input type=text class=internal-input :placeholder=placeholder :value=value @input=updateValue($event.target.value) :id=focusid></div><label v-if=\"!editable &amp;&amp; (type != \'datetime\')\" :for=focusto @click=emitClick class=std-app-field__input>{{value}} <span class=input-append v-if=append>{{append}}</span></label> <label :for=focusid v-if=\"(type == \'datetime\')\" class=\"std-app-field__input editable\">{{window.utils.printDateTime(value)}} <input type=datetime-local class=std-app-field__datetime-hidden :id=focusid @input=updateValue($event.target.value)></label></div>',
 	props: ['label','value','placeholder','editable','append', 'type','focusto','focusid'],
 	data: function() {
 		return { labelDatetimeId: (Math.random().toString(36).substring(7)) };
@@ -370,11 +370,11 @@ w.Components['std-app-field'] = {
 	}
 }
 
-// End of /Users/john/SyncDocs/reps/9292-redesign/src/components/std-app-field.js
+// End of /Users/jpetrov/Work/9292-redesign/src/components/std-app-field.js
 })(window);
 (function(w){
 "use strict";
-// File /Users/john/SyncDocs/reps/9292-redesign/src/components/std-toggle.js
+// File /Users/jpetrov/Work/9292-redesign/src/components/std-toggle.js
 
 w.Components['std-toggle'] = {
 	template: '<ul class=std-toggle><li class=std-toggle__item v-for=\"(item, index) in items\" :data-value=item.value :data-index=index :class=\"(active == index) ? \'active\': \'\'\" @click=toggleItem($event.currentTarget.dataset)><span class=item-label>{{item.label}}</span></ul>',
@@ -387,14 +387,14 @@ w.Components['std-toggle'] = {
 	}
 }
 
-// End of /Users/john/SyncDocs/reps/9292-redesign/src/components/std-toggle.js
+// End of /Users/jpetrov/Work/9292-redesign/src/components/std-toggle.js
 })(window);
 (function(w){
 "use strict";
-// File /Users/john/SyncDocs/reps/9292-redesign/src/components/text-field.js
+// File /Users/jpetrov/Work/9292-redesign/src/components/text-field.js
 
 w.Components['text-field'] = {
-	template: '<div class=text-field :class=\"{\n	\'text-field_error\': validator.$error,\n	\'text-field_has-input\': focus || value\n}\"><div class=disabled-overlay></div><input :value=value @input=updateValue($event.target.value) @focus=\"focus = true\" @blur=\"focus = false\" type=text class=text-field__input id=text-field-field__destination name=destination><label class=text-field__label for=text-field-field__destination>{{message}}</label></div>',
+	template: '<div class=text-field :class=\"{\n	\'text-field_error\': validator.$error,\n	\'text-field_has-input\': focus || value\n}\"><div class=disabled-overlay></div><input :value=value @input=updateValue($event.target.value) @focus=\"focus = true\" @blur=\"focus = false\" type=text class=text-field__input id=text-field-field__destination name=destination> <label class=text-field__label for=text-field-field__destination>{{message}}</label></div>',
 	props: [
 		'label',
 		'label-error',
@@ -427,11 +427,11 @@ w.Components['text-field'] = {
 	}
 }
 
-// End of /Users/john/SyncDocs/reps/9292-redesign/src/components/text-field.js
+// End of /Users/jpetrov/Work/9292-redesign/src/components/text-field.js
 })(window);
 (function(w){
 "use strict";
-// File /Users/john/SyncDocs/reps/9292-redesign/src/js/init.js
+// File /Users/jpetrov/Work/9292-redesign/src/js/init.js
 
 w.GlobalState = {
 	debug: true,
@@ -629,11 +629,11 @@ w.APIProcessor = {
 		return result;
 	}
 }
-// End of /Users/john/SyncDocs/reps/9292-redesign/src/js/init.js
+// End of /Users/jpetrov/Work/9292-redesign/src/js/init.js
 })(window);
 (function(w){
 "use strict";
-// File /Users/john/SyncDocs/reps/9292-redesign/src/js/main.js
+// File /Users/jpetrov/Work/9292-redesign/src/js/main.js
 
 w.StartScreen = new Vue({
 	el: '#start-screen',
@@ -897,5 +897,5 @@ w.AdviceScreen = new Vue({
 		}
 	}
 })
-// End of /Users/john/SyncDocs/reps/9292-redesign/src/js/main.js
+// End of /Users/jpetrov/Work/9292-redesign/src/js/main.js
 })(window);

@@ -33,7 +33,7 @@
     "path": "^0.12.7",
     "requestify": "^0.2.5",
     "underscore": "latest",
-    "vue": "latest",
+    "vue": "2.2.6",
     "vuelidate": "^0.4.3"
   }
 }
